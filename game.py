@@ -28,7 +28,7 @@ colors={
     1024: "#9fc5f8",
     2048: "#6fa8dc",
     4096: "#b4a7d6",
-    8192: "#c27ba0",
+    8192: "#c27ba0" ,
 }
 
 # 2 dimensions list (empty, with labels in the future)
