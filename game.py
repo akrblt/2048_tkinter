@@ -51,6 +51,79 @@ def display():
                 labels[line][col].config( text="", bg=bg_color, borderwidth=0)
 
 
+def pack3(a,b,c):
+    if a==0:
+        a,b,c=b,c,0
+    if b==0:
+        b,c=c,0
+    if a==b:
+        a*=2
+        b,c=c,0
+    if b==c:
+        b*=2
+        c=0
+    return [a,b,c]
+
+
+#print(pack3(2, 2, 4))
+#print(pack3(0, 2, 2))
+#print(pack3(2, 2, 2))
+#print(pack3(2, 2, 4))
+
+def pack4(a,b,c,d):
+    nm=0
+    ''' counter=0
+    while a==0 and counter<4:
+        a,b,c,d=b,c,d,0
+        nm+=1
+        counter+=1'''
+
+    if c == 0 and d>0:
+        c, d = d, 0
+        nm+=1
+    if b==0 and c>0:
+        b,c,d=c,d,0
+        nm+=1
+    if a==0 and b>0:
+        a,b,c,d =b,c,d,0
+        nm += 1
+
+    if a==b and a>0:
+        nm+=1
+        a*=2
+        b,c,d=c,d,0
+    if b==c and b>0:
+        nm+=1
+        b*=2
+        c,d=d,0
+    if c==d and d>0:
+        nm += 1
+        c*=2
+        d=0
+
+    return [a,b,c,d],nm
+
+
+print(pack4(0, 0, 0,0))
+print(pack4(0, 0, 2,2))
+print(pack4(2, 0, 2,2))
+print(pack4(2, 2, 2,2))
+print(pack4(2, 2, 4,0))
+
+test_datas=[[0,0,0,0],[0,0,0,2],[0,0,2,2]]
+test_reponses=[[0,0,0,0,0],[2,0,0,0,3],[4,0,0,3]]
+
+
+
+
+def test():
+    for i in range (len(test_datas)):
+        data=test_datas[i]
+        temp=pack4(data[0],data[1],data[2],data[3])
+
+        for j in range(3):
+            if test_reponses[i][j]==temp[j]:
+                print("Ok pour le test " )
 
 # Windows creation
 win = Tk()
@@ -79,6 +152,7 @@ for line in range(len(game)):
         #print(labels[line][col])
 
 display() #texte et couleurs
+test()
 
 
 win.mainloop()
