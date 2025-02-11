@@ -41,6 +41,12 @@ labels=[[None,None,None,None],
 dx=10 # horizontal distance between labels
 dy=10 # vertical distance between labels
 
+score = 0  #
+
+# Skoru güncelleme ve GUI'de gösterme
+def update_score():
+    score_label.config(text=f"Skor: {score}")
+
 # réaffiche les bons textes et couleurw
 def display():
     for line in range(len(game)):
@@ -67,16 +73,21 @@ def pack4(a,b,c,d):
         nm += 1
 
     if a==b and a>0:
+
         nm+=1
         a*=2
+        global score
+        score += a
         b,c,d=c,d,0
     if b==c and b>0:
         nm+=1
         b*=2
+        score += b
         c,d=d,0
     if c==d and d>0:
         nm += 1
         c*=2
+        score += c
         d=0
 
     return [a,b,c,d],nm
@@ -158,6 +169,10 @@ def key_pressed(event) :
 win = Tk()
 win.geometry("800x480")
 win.title('2048')
+
+# Skor
+#score_label = Label(win, text=f"Skor: {score}", height=3, font=("Arial", 15))
+#score_label.pack()
 
 # Title
 lbl_title=Label(win,text="2048", height=3,   font=("Arial", 15))
