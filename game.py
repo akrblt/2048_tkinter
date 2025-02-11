@@ -3,17 +3,18 @@
 # creation de jeu 2048
 # version 1.0
 # date 28.01.2025
-
+import random
 from tkinter import *
 import tkinter.font
+from tkinter import messagebox
 
 # 2 dimensions list with data
 
 
 game=[[0,2,4,8],
-      [16,32,2048,128],
-      [256,512,1024,2048],
-      [4096,8192,0,0]]
+      [2,32,4,128],
+      [2,32,32,128],
+      [2,2,0,0]]
 colors={
     0: "#ffffff",
     2: "#f7e50c",
@@ -51,32 +52,9 @@ def display():
                 labels[line][col].config( text="", bg=bg_color, borderwidth=0)
 
 
-def pack3(a,b,c):
-    if a==0:
-        a,b,c=b,c,0
-    if b==0:
-        b,c=c,0
-    if a==b:
-        a*=2
-        b,c=c,0
-    if b==c:
-        b*=2
-        c=0
-    return [a,b,c]
-
-
-#print(pack3(2, 2, 4))
-#print(pack3(0, 2, 2))
-#print(pack3(2, 2, 2))
-#print(pack3(2, 2, 4))
 
 def pack4(a,b,c,d):
     nm=0
-    ''' counter=0
-    while a==0 and counter<4:
-        a,b,c,d=b,c,d,0
-        nm+=1
-        counter+=1'''
 
     if c == 0 and d>0:
         c, d = d, 0
@@ -103,27 +81,78 @@ def pack4(a,b,c,d):
 
     return [a,b,c,d],nm
 
+def add_random_tile():
+    """Adds a random tile (value 2) in an empty position."""
+    empty_cells = []
+    for row in range(4):
+        for col in range(4):
+            if game[row][col] == 0:
+                empty_cells.append((row, col))
 
-print(pack4(0, 0, 0,0))
-print(pack4(0, 0, 2,2))
-print(pack4(2, 0, 2,2))
-print(pack4(2, 2, 2,2))
-print(pack4(2, 2, 4,0))
+    if empty_cells:
+        row, col = random.choice(empty_cells)
+        game[row][col] = 2
 
-test_datas=[[0,0,0,0],[0,0,0,2],[0,0,2,2]]
-test_reponses=[[0,0,0,0,0],[2,0,0,0,3],[4,0,0,3]]
+def move_down():
+    tot_mov=0
+    for col in range(4):
+        [game[3][col], game[2][col], game[1][col], game[0][col]],nmove=pack4(game[3][col], game[2][col], game[1][col], game[0][col])
+        tot_mov = tot_mov + nmove
+    return tot_mov
+
+def move_up():
+    tot_mov=0
+    for col in range(4):
+        [game[0][col], game[1][col], game[2][col], game[3][col]], nmove = pack4(game[0][col], game[1][col],game[2][col], game[3][col])
+        tot_mov = tot_mov + nmove
+    return tot_mov
+
+def move_left():
+    tot_mov=0
+    for line in range(4):
+        [game[line][0], game[line][1], game[line][2], game[line][3]], nmove = pack4(game[line][0], game[line][1], game[line][2], game[line][3])
+
+        tot_mov += nmove
+    return tot_mov
+
+
+def move_right():
+    tot_mov=0
+    for line in range(4):
+        [game[line][3], game[line][2], game[line][1], game[line][0]], nmove = pack4(game[line][3], game[line][2], game[line][1], game[line][0])
+
+        tot_mov += nmove
+    return tot_mov
+
+#affectation des touches aux fonctions, q pour quitter, le reste pour "tasser" dans une certaine direction
+def key_pressed(event) :
+    touche=event.keysym #récupérer le symbole de la touche
+    moved = False
+    if (touche=="Right" or touche=="d" or touche=="D"):
+       moved = move_right()
+
+    elif (touche=="Left" or touche=="a" or touche=="A"):
+
+       moved = move_left()
+    elif (touche=="Up" or touche=="w" or touche=="W"):
+
+       moved = move_up()
+    elif (touche=="Down" or touche=="s" or touche=="S"):
+
+       moved = move_down()
+    elif (touche=="Q" or touche=="q"):
+        result=messagebox.askokcancel("Confirmation", "vraiment quitter ?")
+        if result:
+            quit()
+    if moved :
+        add_random_tile()
+        display()
 
 
 
 
-def test():
-    for i in range (len(test_datas)):
-        data=test_datas[i]
-        temp=pack4(data[0],data[1],data[2],data[3])
 
-        for j in range(3):
-            if test_reponses[i][j]==temp[j]:
-                print("Ok pour le test " )
+
 
 # Windows creation
 win = Tk()
@@ -151,8 +180,14 @@ for line in range(len(game)):
         labels[line][col].pack (side=LEFT, padx=dx, pady=dy)
         #print(labels[line][col])
 
+
+
+
 display() #texte et couleurs
-test()
 
 
+
+
+
+win.bind('<Key>', key_pressed) #on traite les touches clavier
 win.mainloop()
