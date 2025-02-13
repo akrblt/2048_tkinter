@@ -43,7 +43,7 @@ dy=10 # vertical distance between labels
 
 score = 0  #
 
-# Skoru güncelleme ve GUI'de gösterme
+# Skor update
 def update_score():
     score_label.config(text=f"Skor: {score}")
 
