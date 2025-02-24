@@ -14,7 +14,7 @@ from tkinter import messagebox
 game=[[0,2,4,8],
       [2,32,4,128],
       [2,32,32,128],
-      [2,2,0,0]]
+      [2,2,0,0 ]]
 colors={
     0: "#ffffff",
     2: "#f7e50c",
