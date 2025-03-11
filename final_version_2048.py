@@ -1,13 +1,14 @@
 # 2048
 # Ahmet KARABULUT
 # creation de jeu 2048
-# version 1.1
-# date 04.03.2025
+# version 0.4
+# date 11.03.2025
 
 import random
 from tkinter import *
 import tkinter.font
 from tkinter import messagebox
+import time
 
 # 2 dimensions list with data
 game = [
@@ -46,6 +47,12 @@ dy = 10  # vertical distance between labels
 score = 0  # Initial score
 won = False  # Flag to check if the player has won
 
+# timer variables
+timer_label= None
+start_time=None
+timer_running=False
+
+
 # Reaffiche les bons textes et couleurs
 def display():
     for line in range(len(game)):
@@ -55,6 +62,23 @@ def display():
                 labels[line][col].config(text=game[line][col], bg=bg_color, borderwidth=1)
             else:
                 labels[line][col].config(text="", bg=bg_color, borderwidth=0)
+
+# Fonc time
+def update_time():
+    if timer_running:
+        time_passed=int(time.time()-start_time)
+        timer_label.config(text=f" time :  {time_passed} seconds")
+        win_window.after(1000, update_time)
+
+def start_time():
+    global start_time,timer_running
+    start_time = time.time()
+    timer_running=True
+    update_time()
+
+def stop_time():
+    global timer_running
+    timer_running=False
 
 
 def pack4(a, b, c, d):
@@ -107,12 +131,14 @@ def add_random_tile():
 
 
 def game_over():
+    stop_time()
     messagebox.showinfo("Game Over", "Vous avez perdu")
 
 
 def check_win():
     global won
     if not won:
+        stop_time()
         # This function is called when a 2048 tile is reached.
         messagebox.showinfo("You Win!", "Congratulations, you reached 2048!")
         won = True  # Set the flag to True, indicating that the player has won
@@ -215,8 +241,11 @@ win_window.title('2048')
 #score_label.pack()
 
 # Title
-lbl_title = Label(win_window, text="2048", height=3, font=("Arial", 15))
+lbl_title = Label(win_window, text="2048", height=5, font=("Arial", 15))
 lbl_title.pack()
+
+timer_label = Label(win_window, text="time : 0 seconds " , height=2,  font=("Arial", 15))
+timer_label.pack()
 
 frm_main = Frame(win_window, bd=5, relief="ridge", bg="lightblue")
 frm_main.pack()
@@ -236,6 +265,7 @@ for line in range(len(game)):
 
 # Display initial board
 display()
+start_time()
 #print(values)
 
 win_window.bind('<Key>', key_pressed)  # Handle key events
