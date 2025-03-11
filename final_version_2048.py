@@ -232,6 +232,7 @@ for line in range(len(game)):
         labels[line][col] = Label(frm, width=6, height=3, borderwidth=1, relief="solid", font=("Arial", 15))
         # Label positioning in the window
         labels[line][col].pack(side=LEFT, padx=dx, pady=dy)
+        #print("Control")
 
 # Display initial board
 display()
