@@ -236,6 +236,7 @@ for line in range(len(game)):
 
 # Display initial board
 display()
+#print(values)
 
 win_window.bind('<Key>', key_pressed)  # Handle key events
 win_window.mainloop()
