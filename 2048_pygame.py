@@ -1,3 +1,9 @@
+# 2048
+# Ahmet KARABULUT
+# creation de jeu 2048
+# version 0.4
+# date 19.03.2025
+
 import pygame
 import random
 import time
