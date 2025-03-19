@@ -1,8 +1,8 @@
 # 2048
 # Ahmet KARABULUT
-# creation de jeu 2048
-# version 1.0
-# date 28.01.2025
+# creation de jeu 2048 avec pygame
+# version 0.1
+# date 17.03.2025
 import random
 from tkinter import *
 import tkinter.font

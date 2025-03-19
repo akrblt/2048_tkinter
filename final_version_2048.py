@@ -2,7 +2,7 @@
 # Ahmet KARABULUT
 # creation de jeu 2048
 # version 0.4
-# date 11.03.2025
+# date 17.03.2025
 
 import random
 from tkinter import *
@@ -67,7 +67,7 @@ def display():
 def update_time():
     if timer_running:
         time_passed=int(time.time()-start_time)
-        timer_label.config(text=f" time :  {time_passed} seconds")
+        timer_label.config(text=f" Passé un bon moment :  {time_passed} seconds")
         win_window.after(1000, update_time)
 
 def start_time():
@@ -233,7 +233,7 @@ def key_pressed(event):
 
 # Windows creation
 win_window = Tk()  # Renaming 'win' to 'win_window' to avoid conflict with the 'win()' function
-win_window.geometry("800x480")
+win_window.geometry("800x680")
 win_window.title('2048')
 
 # Skor
